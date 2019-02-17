@@ -1,35 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>跨域测试</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-
-        $(document).ready(function () {
-
-            $("#btn").click(function () {
-
-                $.ajax({
-                    url: "http://127.0.0.1:8081/hello",
-                    type: "GET",
-                    dataType: 'json',
-                    success: function (data) {
-                        var result = JSON.stringify(data); //json对象转成字符串
-                        alert(1111)
-                        alert(result)
-                        obj = JSON.parse(result);
-                        $("#text").val(obj.name)
-                    }
-                });
-
-            });
-
-        });
-    </script>
+	<meta charset="utf-8"> 
+	<title>RESTAURANTS</title>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+    .fakeimg {
+        height: 400px;
+         background: #aaa;
+    }
+  </style>
 </head>
 <body>
-    <input id="btn" type="button" value="跨域获取数据" />
-    <textarea id="text" style="width: 400px; height: 100px;"></textarea>
+<div class="jumbotron text-center" style="margin-bottom:0">
+  <a href="https://restaurant.michelin.fr" ><h1>MICHELIN RESTAURANTS</h1></a>
+</div>
 
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://restaurant.michelin.fr/restaurants/france">FRANCE RESTAURANTS</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+</div>
+
+
+<!-- <script>
+var str = "<div class=\"row\"><div class=\"col-sm-12\"><h2>restaurant name</h2><div class=\"fakeimg\"><img src=\"https://restaurant.michelin.fr/sites/mtpb2c_fr/files/styles/poi_detail_landscape/public/SAIDOUNE_HEROZENITALE4-min.jpg?itok=QUA9-ZmU\" width=\"1150\" height=\"400\"></div><h4>stars 4</h4><h4>Prix - De 18 € à 25 €</h4><h4>Libanais; Gastronomique; Végétarien; Végétalien; Traditionnel, Classique</h4></div>";
+for(var i =0;i<100;i++){
+  $(str).appendTo($(".container"));
+}
+
+</script> -->
+
+<script>
+          $.ajax({
+              url: "http://127.0.0.1:8081/listhotels",
+              type: "GET",
+              dataType: 'json',
+              success: function (data) {
+                  var result = JSON.stringify(data); //json对象转成字符
+                  console.log(result);
+                  obj = JSON.parse(result);
+                  for(var i =0;i<obj.length;i++){
+                    var str = "<div class=\"row\"><div class=\"col-sm-12\"><h2>"+obj[i].name+"</h2><div class=\"fakeimg\"><a href=\""+obj[i].michelinurl+"\"><img src=\""+ obj[i].image +"\"width=\"1150\" height=\"400\"></a></div><h4>MichelinStars: "+obj[i].michelinStars+"</h4><h4>Address: "+obj[i].location+"</h4></div>";
+                    $(str).appendTo($(".container"));
+                  }            
+                  // $("#text").val(obj.name)
+              }
+          });
+</script>
 </body>
 </html>
